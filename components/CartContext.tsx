@@ -2,10 +2,10 @@
 import React, { createContext, useContext, useState } from "react";
 export const CartContext = createContext<any>(null);
 function CreateCartContext({children} :{children : React.ReactNode}) {
-  const [cart, setCart] = useState<any>([]);
+  const [cart, setCart] = useState<any[]>([]);
 
   return (
-    <CartContext.Provider value={[ cart, setCart ]}>
+    <CartContext.Provider value={[cart, setCart]}>
       {children}
     </CartContext.Provider>
   );

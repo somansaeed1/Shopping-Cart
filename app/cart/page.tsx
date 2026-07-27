@@ -3,7 +3,7 @@ import React from 'react'
 
 function page() {
   return (
-    <div><ViewCart/></div>
+    <div className="max-w-4xl mx-auto py-12 px-4"><ViewCart/></div>
   )
 }
 

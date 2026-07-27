@@ -1,13 +1,13 @@
 "use client";
 
-import CreateCartContext, { useCart } from "@/components/CartContext";
+import {useCart} from "@/components/CartContext";
 import ViewCart from "@/components/ViewCart";
 import axios from "axios";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 
 export default function Home() {
-  const [getProductElements, setGetProductElements] = useState(null);
+  const [getProductElements, setGetProductElements] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [cart, setCart] = useCart();
 
@@ -19,7 +19,9 @@ export default function Home() {
       setIsLoading(false);
       console.log("Products", getProducts);
     } catch (error: any) {
-      console.log("Failed to fetch the API");
+      console.error("Failed to fetch the API");
+    } finally{
+      setIsLoading(false);
     }
   };
 
@@ -30,28 +32,35 @@ export default function Home() {
   const addToCart = (product: any) => {
     setCart((prevCart: any[]) => [...prevCart, product]);
   };
-  if (isLoading) return <p>Loading...</p>;
+
+  if (isLoading) return <p className="text-center py-10 font-bold">Loading...</p>;
   console.log(getProductElements);
   return (
-      <div className="bg-blue-200 w-full max-w-7xl mx-auto px-4 py-12 flex-auto justify-items-center">
-        <h1 className="font-bold">Products</h1>
-        <ul>
-          {getProductElements &&
-            getProductElements.map((curr, ind) => (
-              <li key={ind}>
-                <h3>Title: {curr.title}</h3>
-                <h3>Price: {curr.price}</h3>
-                <h3>Description: {curr.description}</h3>
-                <h3>Category: {curr.category}</h3>
-                <Image src={curr.image} alt="45678" width={34} height={45} />
-                <div className="mt-2">
-                <span className="font-bold">Ratings:</span>
+      <div className="bg-blue-200 w-full max-w-7xl mx-auto px-4 py-12 flex-auto">
+        <h1 className="font-bold text-3xl mb-8 text-center text-gray-800">Products</h1>
+        <ul className="flex flex-wrap justify-between gap-y-6 w-full">
+            {getProductElements?.map((curr, ind) => (
+              <li key={ind} className="w-full md:w-[48%] bg-white p-6 rounded-lg shadow-md flex flex-col justify-between">
+                <h3 className="font-bold text-lg text-gray-800 line-clamp-1">{curr.title}</h3>
+                <h3 className="text-green-600 font-extrabold text-xl my-1"> ${curr.price}</h3>
+                <div>
+                  <Image 
+                  src={curr.image}
+                  alt={curr.title}
+                  width={150}
+                  height={150}
+                  className="mx-auto block object-contain h-40 mb-4"
+                  /> <br />
+                </div>
+                <p className="text-sm text-gray-600 line-clamp-3 mb-3"> {curr.description}</p>
+                
+                <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded font-medium capitalize">Ratings:</span>
                 <ul className="pl-4 list-disc">
-                  <li>Rate: {curr.rating?.rate}</li>
-                  <li>Count: {curr.rating?.count}</li>
+                  <li>{curr.rating?.rate}</li>
+                  <li>{curr.rating?.count} Reviews</li>
                 </ul>
-              </div>                <button
-                  className="bg-zinc-500 font-light w-50 rounded-md py-2 px-2 cursor-pointer"
+                <button
+                  className="bg-zinc-500 font-medium w-full rounded-md py-2.5 px-4 hover:bg-zinc-700 transition cursor-pointer mt-6"
                   onClick={() => addToCart(curr)}
                 >
                   Add to Cart
@@ -59,7 +68,7 @@ export default function Home() {
               </li>
             ))}
         </ul>
-              <div className="bg-gray-100 p-6 rounded-lg h-fit shadow-md">
+        <div className="bg-gray-100 p-6 rounded-lg h-fit shadow-md mt-12 w-full">
         <ViewCart />
       </div>
       </div>

@@ -1,5 +1,5 @@
 import CreateCartContext from "@/components/CartContext";
-import "@/app/globals.css"; // or your global stylesheet path
+import "@/app/globals.css";
 
 export default function RootLayout({
   children,

@@ -32,7 +32,7 @@ const [cart] = useCart();
             </div>
           <div className="flex-1 min-w-0 w-full">
           <div className="flex flex-col sm:flex-row sm:justify-between">
-          <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate pr-2">{item.title}</h3>
+          <h3 className="font-semibold text-gray-900 truncate pr-2">{item.title}</h3>
           <span 
           className="text-green-600 font-bold"> ${item.price}
           </span>
